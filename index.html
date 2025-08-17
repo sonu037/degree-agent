@@ -62,11 +62,13 @@
         const resultsCount = document.getElementById('results-count');
         const loadingSpinner = document.getElementById('loading');
         const errorMessage = document.getElementById('error-message');
-        const API_BASE_URL = 'http://127.0.0.1:8000';
+        
+        // --- FINAL CHANGE ---
+        // Updated the URL to point to your live Render API server.
+        const API_BASE_URL = 'https://degree-agent-2.onrender.com';
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-            console.log("--- Search Started ---"); // DEBUG
 
             resultsList.innerHTML = '';
             resultsCount.textContent = '';
@@ -83,20 +85,15 @@
             if (keyword) queryParams.append('keyword', keyword);
             
             const requestUrl = `${API_BASE_URL}/search?${queryParams.toString()}`;
-            console.log("Fetching URL:", requestUrl); // DEBUG
 
             try {
-                // FIX: Simplified the fetch request options, focusing only on CORS mode.
                 const response = await fetch(requestUrl, { mode: 'cors' });
-                console.log("Raw response from server:", response); // DEBUG
 
                 if (!response.ok) {
                     throw new Error(`Network response was not ok. Status: ${response.status}`);
                 }
 
                 const data = await response.json();
-                console.log("Data received from API:", data); // DEBUG
-
                 loadingSpinner.classList.add('hidden');
 
                 if (data.error) {
@@ -107,23 +104,19 @@
                     displayResults(data.results);
                 } else {
                     resultsCount.textContent = 'No universities found for your search criteria.';
-                    console.log("No results found in data."); // DEBUG
                 }
 
             } catch (error) {
                 loadingSpinner.classList.add('hidden');
                 errorMessage.textContent = `An error occurred: ${error.message}`;
                 errorMessage.classList.remove('hidden');
-                console.error("An error occurred during fetch:", error); // DEBUG
             }
         });
 
         function displayResults(universities) {
-            console.log("Displaying results for", universities.length, "universities."); // DEBUG
             resultsCount.textContent = `Found ${universities.length} universities.`;
             
-            universities.forEach((uni, index) => {
-                console.log(`Processing university #${index + 1}:`, uni.name); // DEBUG
+            universities.forEach(uni => {
                 const card = document.createElement('div');
                 card.className = 'bg-white p-5 rounded-xl shadow-md border border-gray-200 transition hover:shadow-lg hover:border-blue-500';
                 
