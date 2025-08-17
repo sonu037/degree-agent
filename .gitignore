@@ -1,0 +1,22 @@
+# Virtual Environment
+.venv/
+venv/
+*.venv
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE / Editor specific files
+.vscode/
+.idea/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Other
+.DS_Store

@@ -1,0 +1,184 @@
+[
+  {
+    "program_id": "wqu-msfe",
+    "title": "Master of Science in Financial Engineering",
+    "discipline": [
+      "Finance",
+      "Data"
+    ],
+    "degree_level": "Masters",
+    "university": "WorldQuant University",
+    "country": "USA",
+    "modality": "Online",
+    "language": "English",
+    "tuition_type": "tuition_free",
+    "tuition_detail": {
+      "currency": "USD",
+      "total_estimate": 0,
+      "notes": "Tuition-free model"
+    },
+    "fees": [],
+    "scholarships": [],
+    "accreditation": {
+      "body": "DEAC",
+      "status": "recognized",
+      "notes": ""
+    },
+    "admissions": {
+      "requirements": [
+        "Bachelor's"
+      ],
+      "deadlines": [
+        "Rolling"
+      ],
+      "duration_months": 24
+    },
+    "source_urls": [
+      "https://www.wqu.edu/"
+    ],
+    "last_checked_utc": "2025-08-15T17:33:44.010366Z"
+  },
+  {
+    "program_id": "uopeople-msit",
+    "title": "Master of Science in Information Technology",
+    "discipline": [
+      "CS",
+      "IT"
+    ],
+    "degree_level": "Masters",
+    "university": "University of the People",
+    "country": "USA",
+    "modality": "Online",
+    "language": "English",
+    "tuition_type": "low_cost",
+    "tuition_detail": {
+      "currency": "USD",
+      "total_estimate": 4000,
+      "notes": "Application + per-course assessment fees"
+    },
+    "fees": [
+      {
+        "type": "application",
+        "amount": 60,
+        "currency": "USD",
+        "notes": "one-time"
+      },
+      {
+        "type": "assessment_per_course",
+        "amount": 460,
+        "currency": "USD",
+        "notes": "estimate"
+      }
+    ],
+    "scholarships": [
+      {
+        "name": "UoPeople Scholarships",
+        "coverage": "partial",
+        "link": "https://www.uopeople.edu/tuition-free/our-scholarships/"
+      }
+    ],
+    "accreditation": {
+      "body": "DEAC",
+      "status": "recognized",
+      "notes": ""
+    },
+    "admissions": {
+      "requirements": [
+        "Bachelor's"
+      ],
+      "deadlines": [
+        "Multiple intakes"
+      ],
+      "duration_months": 24
+    },
+    "source_urls": [
+      "https://www.uopeople.edu/programs/cs/"
+    ],
+    "last_checked_utc": "2025-08-15T17:33:44.010385Z"
+  },
+  {
+    "program_id": "gatech-omscs",
+    "title": "Online Master of Science in Computer Science (OMSCS)",
+    "discipline": [
+      "CS",
+      "AI",
+      "Data"
+    ],
+    "degree_level": "Masters",
+    "university": "Georgia Institute of Technology",
+    "country": "USA",
+    "modality": "Online",
+    "language": "English",
+    "tuition_type": "low_cost",
+    "tuition_detail": {
+      "currency": "USD",
+      "total_estimate": 7500,
+      "notes": "Approximate for OMSCS"
+    },
+    "fees": [],
+    "scholarships": [],
+    "accreditation": {
+      "body": "SACSCOC",
+      "status": "regional",
+      "notes": ""
+    },
+    "admissions": {
+      "requirements": [
+        "Bachelor's",
+        "Prereqs"
+      ],
+      "deadlines": [
+        "Biannual"
+      ],
+      "duration_months": 24
+    },
+    "source_urls": [
+      "https://omscs.gatech.edu/"
+    ],
+    "last_checked_utc": "2025-08-15T17:33:44.010390Z"
+  },
+  {
+    "program_id": "edx-msds-generic",
+    "title": "Master of Science in Data Science (edX partner example)",
+    "discipline": [
+      "Data",
+      "AI"
+    ],
+    "degree_level": "Masters",
+    "university": "edX Partner University",
+    "country": "Various",
+    "modality": "Online",
+    "language": "English",
+    "tuition_type": "standard",
+    "tuition_detail": {
+      "currency": "USD",
+      "total_estimate": 18000,
+      "notes": "Varies by partner"
+    },
+    "fees": [],
+    "scholarships": [
+      {
+        "name": "edX Financial Aid",
+        "coverage": "partial"
+      }
+    ],
+    "accreditation": {
+      "body": "Varies",
+      "status": "recognized",
+      "notes": "Depends on partner"
+    },
+    "admissions": {
+      "requirements": [
+        "Bachelor's"
+      ],
+      "deadlines": [
+        "Varies"
+      ],
+      "duration_months": 24
+    },
+    "source_urls": [
+      "https://www.edx.org/"
+    ],
+    "last_checked_utc": "2025-08-15T17:33:44.010394Z"
+  }
+]

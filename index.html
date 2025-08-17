@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Degree Agent - University Search</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a clean, modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner { border-top-color: #3498db; animation: spin 1s linear infinite; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900">Degree Agent</h1>
+            <p class="mt-2 text-lg text-gray-600">Your intelligent guide to global education.</p>
+        </header>
+
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <form id="search-form" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-end">
+                <div>
+                    <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country*</label>
+                    <input type="text" id="country" name="country" placeholder="e.g., Canada" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">University Name</label>
+                    <input type="text" id="name" name="name" placeholder="e.g., Toronto" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+                <div>
+                    <label for="keyword" class="block text-sm font-medium text-gray-700 mb-1">Keyword</label>
+                    <input type="text" id="keyword" name="keyword" placeholder="e.g., Online" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+                <div class="sm:col-span-2 md:col-span-3">
+                    <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out">
+                        Search Universities
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="results-container" class="mt-8">
+            <div id="loading" class="hidden flex justify-center items-center py-12">
+                <div class="spinner w-12 h-12 border-4 border-gray-200 rounded-full"></div>
+            </div>
+            <div id="error-message" class="hidden text-center bg-red-100 text-red-700 p-4 rounded-lg"></div>
+            <div id="results-count" class="text-center text-gray-600 mb-4 font-medium"></div>
+            <div id="results-list" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('search-form');
+        const resultsList = document.getElementById('results-list');
+        const resultsCount = document.getElementById('results-count');
+        const loadingSpinner = document.getElementById('loading');
+        const errorMessage = document.getElementById('error-message');
+        const API_BASE_URL = 'http://127.0.0.1:8000';
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            console.log("--- Search Started ---"); // DEBUG
+
+            resultsList.innerHTML = '';
+            resultsCount.textContent = '';
+            errorMessage.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+
+            const formData = new FormData(form);
+            const country = formData.get('country');
+            const name = formData.get('name');
+            const keyword = formData.get('keyword');
+
+            const queryParams = new URLSearchParams({ country });
+            if (name) queryParams.append('name', name);
+            if (keyword) queryParams.append('keyword', keyword);
+            
+            const requestUrl = `${API_BASE_URL}/search?${queryParams.toString()}`;
+            console.log("Fetching URL:", requestUrl); // DEBUG
+
+            try {
+                // FIX: Simplified the fetch request options, focusing only on CORS mode.
+                const response = await fetch(requestUrl, { mode: 'cors' });
+                console.log("Raw response from server:", response); // DEBUG
+
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok. Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log("Data received from API:", data); // DEBUG
+
+                loadingSpinner.classList.add('hidden');
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                if (data.results && data.results.length > 0) {
+                    displayResults(data.results);
+                } else {
+                    resultsCount.textContent = 'No universities found for your search criteria.';
+                    console.log("No results found in data."); // DEBUG
+                }
+
+            } catch (error) {
+                loadingSpinner.classList.add('hidden');
+                errorMessage.textContent = `An error occurred: ${error.message}`;
+                errorMessage.classList.remove('hidden');
+                console.error("An error occurred during fetch:", error); // DEBUG
+            }
+        });
+
+        function displayResults(universities) {
+            console.log("Displaying results for", universities.length, "universities."); // DEBUG
+            resultsCount.textContent = `Found ${universities.length} universities.`;
+            
+            universities.forEach((uni, index) => {
+                console.log(`Processing university #${index + 1}:`, uni.name); // DEBUG
+                const card = document.createElement('div');
+                card.className = 'bg-white p-5 rounded-xl shadow-md border border-gray-200 transition hover:shadow-lg hover:border-blue-500';
+                
+                const uniName = uni.name || 'N/A';
+                const uniCountry = uni.country || 'N/A';
+                const uniWebsite = (uni.web_pages && uni.web_pages.length > 0) ? uni.web_pages[0] : '#';
+                const uniDomain = (uni.domains && uni.domains.length > 0) ? uni.domains[0] : 'N/A';
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">${uniName}</h3>
+                            <p class="text-gray-500">${uniCountry}</p>
+                        </div>
+                        <a href="${uniWebsite}" target="_blank" rel="noopener noreferrer" class="ml-4 flex-shrink-0 bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full hover:bg-blue-200 transition">
+                            Visit Website &rarr;
+                        </a>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-600">Domain: ${uniDomain}</p>
+                `;
+                resultsList.appendChild(card);
+            });
+        }
+    </script>
+
+</body>
+</html>
