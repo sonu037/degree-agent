@@ -9,7 +9,7 @@ app = FastAPI(title="Degree Agent v2", version="0.3.0")
 # Allow frontend to talk to backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Or ["http://localhost:3000"]
+    allow_origins=["*"],  # For now allow all origins, later restrict to Vercel domain
     allow_credentials=True,
     allow_methods=["*"],  
     allow_headers=["*"],
@@ -35,14 +35,18 @@ def search_universities(
         params["name"] = name
     
     try:
-        response = requests.get(BASE_URL, params=params)
+        # Add a timeout to avoid hanging forever
+        response = requests.get(BASE_URL, params=params, timeout=15)
         response.raise_for_status()
+        data = response.json()
+
+        return {
+            "count": len(data),
+            "results": data
+        }
+
+    except requests.exceptions.Timeout:
+        return {"error": "Hippo Labs API took too long to respond. Please try again."}
+
     except requests.exceptions.RequestException as e:
-        return {"error": f"Failed to fetch data: {e}"}
-
-    data = response.json()
-
-    return {
-        "count": len(data),
-        "results": data
-    }
+        return {"error": f"Failed to fetch data from Hippo Labs: {str(e)}"}
