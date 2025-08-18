@@ -4,7 +4,7 @@ import requests
 from typing import Optional
 
 # Create one FastAPI app
-app = FastAPI(title="Degree Agent v2", version="0.4.0")
+app = FastAPI(title="Degree Agent v2", version="0.5.0") # Version updated
 
 # --- FINAL FIX: Update CORS to allow your specific Vercel domains ---
 origins = [
@@ -19,6 +19,12 @@ app.add_middleware(
     allow_methods=["*"],  
     allow_headers=["*"],
 )
+
+# --- NEW: Add a Health Check endpoint for Render ---
+@app.get("/health")
+def health_check():
+    """A simple endpoint to confirm the API is running."""
+    return {"status": "ok"}
 
 # Base API (free and open data source)
 BASE_URL = "http://universities.hipolabs.com/search"
