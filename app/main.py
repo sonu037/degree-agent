@@ -35,8 +35,8 @@ def search_universities(
         params["name"] = name
     
     try:
-        # Add a timeout to avoid hanging forever
-        response = requests.get(BASE_URL, params=params, timeout=15)
+        # FIX: Increased timeout to 60 seconds to handle server cold starts.
+        response = requests.get(BASE_URL, params=params, timeout=60)
         response.raise_for_status()
         data = response.json()
 
@@ -46,7 +46,7 @@ def search_universities(
         }
 
     except requests.exceptions.Timeout:
-        return {"error": "Hippo Labs API took too long to respond. Please try again."}
+        return {"error": "The university API took too long to respond. This can happen during a server cold start. Please try again in a moment."}
 
     except requests.exceptions.RequestException as e:
-        return {"error": f"Failed to fetch data from Hippo Labs: {str(e)}"}
+        return {"error": f"Failed to fetch data from the university API: {str(e)}"}
