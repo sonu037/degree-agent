@@ -4,12 +4,17 @@ import requests
 from typing import Optional
 
 # Create one FastAPI app
-app = FastAPI(title="Degree Agent v2", version="0.3.0")
+app = FastAPI(title="Degree Agent v2", version="0.4.0")
 
-# Allow frontend to talk to backend
+# --- FINAL FIX: Update CORS to allow your specific Vercel domains ---
+origins = [
+    "https://degree-agent.vercel.app",
+    "https://degree-agent-suhail-majeed-s-projects.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For now allow all origins, later restrict to Vercel domain
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],  
     allow_headers=["*"],
@@ -35,7 +40,7 @@ def search_universities(
         params["name"] = name
     
     try:
-        # FIX: Increased timeout to 60 seconds to handle server cold starts.
+        # Increased timeout to 60 seconds to handle server cold starts.
         response = requests.get(BASE_URL, params=params, timeout=60)
         response.raise_for_status()
         data = response.json()
