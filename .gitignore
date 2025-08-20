@@ -8,7 +8,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.cache/
+cache/
 
 # IDE / Editor specific files
 .vscode/
